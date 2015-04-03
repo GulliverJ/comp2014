@@ -12,7 +12,7 @@ public class SimpleSensor {
 		System.out.println(">>>Sensor is reading " + randomNum);
 		return randomNum;
 	}
-
+/*
 	public static void main(String[] args) {
 		
 		CQLConnection.CassConnect connection = new CQLConnection.CassConnect();
@@ -34,4 +34,5 @@ public class SimpleSensor {
 			i = 0;
 		}
 	}
+	*/
 }
