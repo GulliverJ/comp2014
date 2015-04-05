@@ -9,14 +9,12 @@ public class HandleThread implements Runnable {
 	private final DataManager controller;
 	private static String read;
 	private boolean kill = false;
-	private static String hash;
+	//private static String hash;
 	private static String data;
 	private static Connection con = null;
 	private CassConnect cqlcon = new CassConnect();
 	
-	private String connection = "jdbc:mysql://127.0.0.1/orangeusers";
-	private String user = "GTAdmin";
-	private String password = "COMP2014g10";
+
 
 	
 	public HandleThread(DataManager controller) {
@@ -27,14 +25,26 @@ public class HandleThread implements Runnable {
 	public void run() {
 		
 		try {
-			System.out.println("HT - getting connection");
+			String connection = "jdbc:mysql://127.0.0.1/orangesystem";
+			String user = "data-receiver";
+			String password = "comp2014";
 			con = DriverManager.getConnection(connection, user, password);
+		} catch (SQLException e) {
+			System.out.println("Couldn't connect to SQL database.");
+			System.exit(1);
+			// Implement shutdown method
+		}
 		
+		try {
+			String hash;
+			
 			while( !kill ) {
+				// TODO: handling of multiple hashes in a packet (e.g. abcd1234:5:12;efgh5678;3:13) - colon colon more efficient/easier?
+				
 				read = new String(controller.readPacket(), "UTF-8");
 				hash = read.substring(0, 8);
-				System.out.println("HT - read: " + read + ", hash: " + hash);
-				if (verifyHash()) {
+				if (verifyHash(hash, con)) {
+					System.out.println("Hash " + hash + " verified.");
 					data = read.substring(9, read.lastIndexOf(';'));
 					(new Thread(new InputThread(hash, data, cqlcon, con))).start();
 				}
@@ -60,19 +70,20 @@ public class HandleThread implements Runnable {
 		kill = true;
 	}
 	
-	private static boolean verifyHash() {
+	private static boolean verifyHash(String hash, Connection con) {
 		
 		Statement checkHash = null;
 		
-		String checkHashString = "SELECT identifier FROM users WHERE identifier = '" + hash + "';";
+		String checkHashString = "SELECT identifier FROM identifiers WHERE identifier = '" + hash + "';";
 		
 		try {
 			checkHash = con.createStatement();
 			ResultSet rs = checkHash.executeQuery(checkHashString);
-			if (rs.next())
-			{
-				System.out.println("Hash valid");
+			if (rs.next()) {
 				return true;
+			}
+			else {
+				System.out.println("Hash not recognised! Discarding string.");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

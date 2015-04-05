@@ -22,24 +22,21 @@ public class InputThread implements Runnable {
 	}
 	
 	public void run() {
-		System.out.println("Hash: " + hash);
-		System.out.println("Data: " + data);
 		
-		Statement userIDQuery = null;
-		String userIDString = "SELECT user_id FROM users WHERE identifier = '" + hash + "';";
-		
-		int user_id = 0;
+		//Retrieves Operator ID
+		Statement opIDQuery = null;
+		String opIDString = "SELECT operator_id FROM identifiers WHERE identifier = '" + hash + "';";
+		int operator_id = -1;
 		
 		try {
-			userIDQuery = con.createStatement();
-			ResultSet rs = userIDQuery.executeQuery(userIDString);
+			opIDQuery = con.createStatement();
+			ResultSet rs = opIDQuery.executeQuery(opIDString);
 			rs.next();
-			user_id = rs.getInt(1);
+			operator_id = rs.getInt(1);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		int id = -1;
 		int sensor_id = -1;
 		int reading = -1;
 		int sep;
@@ -55,18 +52,30 @@ public class InputThread implements Runnable {
 			if(end < 0)
 				end = data.length();
 			
-			System.out.println(sep + " " + end);
-			
 			// Separate the IDs as ints
-			id = Integer.parseInt(data.substring(0, sep));
+			// TODO: What about floats or doubles? test.
+			sensor_id = Integer.parseInt(data.substring(0, sep));
 			reading = Integer.parseInt(data.substring(sep+1, end));
 			
-			sensor_id = buildID(user_id, id);
-			
 			// TODO: Handle -1 results (i.e. not responding, or errors - MAINTENANCE)
+			// TODO: Handle the appropriate rows not existing in either table (shouldn't happen)
+			
+			//Get global key too
+			Statement globIDQuery = null;
+			String globIDString = "SELECT global_id FROM sensors WHERE operator_id = " + operator_id + " AND sensor_id = " + sensor_id;
+			int global_id = -1;
+			
+			try {
+				globIDQuery = con.createStatement();
+				ResultSet rs = globIDQuery.executeQuery(globIDString);
+				rs.next();
+				global_id = rs.getInt(1);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			
 			// Sends data to the rawdata table in Cassandra
-			cqlcon.sendRawData(sensor_id, reading);
+			cqlcon.sendNewData(global_id, operator_id, sensor_id, reading);
 			
 			// Either decide we've reached the end of the string OR cut off the bit we just sent
 			if (end == data.length())
@@ -75,12 +84,6 @@ public class InputThread implements Runnable {
 				data = data.substring(end+1, data.length());
 		}
 		return;
-	}
-	
-	// Gives sensor id with format  1-[user_id]-[user's-sensor-id], e.g. 198765001 - user 98765's 1st sensor
-	private static int buildID(int user_id, int id) {
-		user_id *= 10000;
-		return 1000000000 + user_id + id;
 	}
 	
 }

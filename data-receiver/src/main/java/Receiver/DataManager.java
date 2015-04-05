@@ -12,11 +12,7 @@ public class DataManager {
 		
 		received.add(packet);
 		notify();
-		try {
-			wait();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
 	}
 	
 	public synchronized byte[] readPacket() {
@@ -34,9 +30,7 @@ public class DataManager {
 		
 		byte[] result = received.get(0);
 		received.remove(0);
-		notify();
 		return result;
-		
 	}
 
 }
