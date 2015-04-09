@@ -1,18 +1,9 @@
 package test;
 
-import static org.junit.Assert.*;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import org.junit.*;
-
-import session.*;
-import util.*;
+// NOTE: this was used at an earlier stage for testing all methods at once. The methods haven't changed - the new version still works, but some have moved around now. I'm leaving this code here for documentation purposes later!
 
 public class APITester {
-	
+	/*
 	String cred = "apitest";
 	private static OrangeConnection api = null;
 	
@@ -274,4 +265,5 @@ public class APITester {
 		assertEquals((int) res[0].getReading(), 30);
 		assertEquals((int) res[2].getReading(), 32);
 	}
+	*/
 }
