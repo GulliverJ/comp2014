@@ -7,6 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author Gulliver Johnson
+ *
+ */
 public class OrangeUser {
 	
 	protected String username;
@@ -21,7 +26,6 @@ public class OrangeUser {
 	 * @param username			the company name chosen at user registration
 	 * @param password			the password chosen at user registration
 	 * @throws SQLException		if a connection to the database couldn't be made
-	 * @author Gulliver Johnson
 	 */
 	public OrangeUser(String username, String password) throws SQLException{
 		this.username = username;

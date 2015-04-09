@@ -9,6 +9,11 @@ import com.orange.api.util.SensorData;
 import java.util.Date;
 import java.util.Arrays;
 
+/**
+ * 
+ * @author Gulliver Johnson
+ *
+ */
 public class OrangeConnection {
 	
 	protected static Cluster cluster;
@@ -16,7 +21,6 @@ public class OrangeConnection {
 
 	/**
 	 * Initialise an unauthenticated connection to retrieve public data
-	 * @author Gulliver Johnson
 	 */
 	public OrangeConnection() {
 		cluster = Cluster.builder().addContactPoint("128.16.80.125").build();
@@ -155,7 +159,7 @@ public class OrangeConnection {
 	 * 
 	 * @param ids			an array of unique sensor global_ids
 	 * @return				an array with the measures attribute for each identified sensor
-	 * @see getMeasures
+	 * @see #getMeasures(int)
 	 */
 	public String[] getMeasuresList(int[] ids) {
 		return getStringList("measures", ids);
@@ -230,7 +234,7 @@ public class OrangeConnection {
 	 * 
 	 * @param ids			an array of unique sensor IDs (global_ids)
 	 * @return				the latitude of each identified sensor as an array of doubles
-	 * @see getLat
+	 * @see #getLat(int)
 	 */
 	public double[] getLatList(int[] ids) {
 		return getDoubleList("lat", ids);
@@ -255,7 +259,7 @@ public class OrangeConnection {
 	 * 
 	 * @param ids			an array of unique sensor IDs (global_ids)
 	 * @return				the longitude for each identified sensor
-	 * @see getLng
+	 * @see #getLng(int)
 	 */
 	public double[] getLngList(int[] ids) {
 		return getDoubleList("lng", ids);
@@ -335,7 +339,7 @@ public class OrangeConnection {
 	 * Returns a Date array containing the timestamp for each identified sensor's very first received reading.
 	 * Never null for a valid global_id.
 	 * 
-	 * @param global_id		an array of unique sensor IDs (global_ids)
+	 * @param ids			an array of unique sensor IDs (global_ids)
 	 * @return				a Date array describing each named sensors' first reading's timestamp
 	 */
 	public Date[] getDateAddedList(int[] ids) {

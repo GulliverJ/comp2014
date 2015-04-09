@@ -1,5 +1,9 @@
 package com.orange.api.util;
-
+/**
+ * 
+ * @author Gulliver Johnson
+ * 
+ */
 public class Position {
 	private int global_id;
 	private double lat;
@@ -11,7 +15,6 @@ public class Position {
 	 * @param global_id	a sensor's global_id
 	 * @param lat		the sensor's latitude
 	 * @param lng		the sensor's longitude
-	 * @author Gulliver Johnson
 	 */
 	public Position(int global_id, double lat, double lng) {
 		this.global_id = global_id;
