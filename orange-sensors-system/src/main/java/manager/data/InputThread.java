@@ -5,16 +5,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import con.cql.CassConnect;
+import con.cql.CassandraCon;
 
 public class InputThread implements Runnable {
 	
 	private String hash;
 	private String data;
 	private Connection con = null;
-	private CassConnect cqlcon;
+	private CassandraCon cqlcon;
 	
-	public InputThread(String hash, String data, CassConnect cqlcon, Connection con) {
+	public InputThread(String hash, String data, CassandraCon cqlcon, Connection con) {
 		this.hash = hash;
 		this.data = data;
 		this.cqlcon = cqlcon;

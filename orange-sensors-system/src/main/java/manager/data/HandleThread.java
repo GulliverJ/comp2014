@@ -2,7 +2,7 @@ package manager.data;
 
 import java.sql.*;
 
-import con.cql.CassConnect;
+import con.cql.CassandraCon;
 
 public class HandleThread implements Runnable {
 	
@@ -12,7 +12,7 @@ public class HandleThread implements Runnable {
 	//private static String hash;
 	private static String data;
 	private static Connection con = null;
-	private CassConnect cqlcon = new CassConnect();
+	private CassandraCon cqlcon = new CassandraCon();
 	
 
 
