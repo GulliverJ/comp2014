@@ -1,11 +1,11 @@
 package runner;
 
 
-import Receiver.DataManager;
-import Receiver.HandleThread;
-import Receiver.ReceiveThread;
+import manager.data.DataManager;
+import manager.data.HandleThread;
+import manager.data.ReceiveThread;
 
-public class DataReceiver {
+public class OrangeSensorsSystem {
 	
 	public static void main(String args[]) {
 		

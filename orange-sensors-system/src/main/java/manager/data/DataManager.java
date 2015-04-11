@@ -1,4 +1,4 @@
-package Receiver;
+package manager.data;
 
 import java.util.ArrayList;
 

@@ -1,11 +1,11 @@
-package Receiver;
+package manager.data;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import CQLConnection.CassConnect;
+import con.cql.CassConnect;
 
 public class InputThread implements Runnable {
 	

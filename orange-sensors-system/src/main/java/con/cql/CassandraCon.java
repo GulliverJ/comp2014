@@ -1,4 +1,4 @@
-package CQLConnection;
+package con.cql;
 
 
 import java.util.Date;
@@ -6,12 +6,12 @@ import java.util.Date;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Session;
 
-public class CassConnect {
+public class CassandraCon {
 	
 	Cluster cluster;
 	Session session;
 	
-	public CassConnect() {
+	public CassandraCon() {
 
 		this.cluster = Cluster.builder().addContactPoint("128.16.80.125").build();
 		this.session = cluster.connect("orangesystem");

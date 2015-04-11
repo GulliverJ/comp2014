@@ -1,4 +1,4 @@
-package Receiver;
+package manager.data;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;

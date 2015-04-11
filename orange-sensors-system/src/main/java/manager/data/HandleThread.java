@@ -1,8 +1,8 @@
-package Receiver;
+package manager.data;
 
 import java.sql.*;
 
-import CQLConnection.CassConnect;
+import con.cql.CassConnect;
 
 public class HandleThread implements Runnable {
 	
