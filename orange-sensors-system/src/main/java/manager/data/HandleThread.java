@@ -14,9 +14,6 @@ public class HandleThread implements Runnable {
 	private static Connection con = null;
 	private CassandraCon cqlcon = new CassandraCon();
 	
-
-
-	
 	public HandleThread(DataManager controller) {
 		this.controller = controller;
 
@@ -30,6 +27,7 @@ public class HandleThread implements Runnable {
 			String password = "comp2014";
 			con = DriverManager.getConnection(connection, user, password);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			System.out.println("Couldn't connect to SQL database.");
 			System.exit(1);
 			// Implement shutdown method
