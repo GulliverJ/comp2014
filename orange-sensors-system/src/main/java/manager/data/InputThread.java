@@ -75,7 +75,8 @@ public class InputThread implements Runnable {
 			}
 			
 			// Sends data to the rawdata table in Cassandra
-			cqlcon.sendNewData(global_id, operator_id, sensor_id, reading);
+			// Todo: send a list to cqlcon?
+			cqlcon.addReading(global_id, reading);
 			
 			// Either decide we've reached the end of the string OR cut off the bit we just sent
 			if (end == data.length())

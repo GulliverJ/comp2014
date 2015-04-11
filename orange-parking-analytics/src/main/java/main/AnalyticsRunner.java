@@ -8,7 +8,6 @@ public class AnalyticsRunner {
 	// This main function will instantiate the threads
 	public static void main(String[] args) {
 		demoAPI();
-
 	}
 	
 	// Returns
