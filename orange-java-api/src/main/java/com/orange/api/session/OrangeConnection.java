@@ -323,6 +323,30 @@ public class OrangeConnection {
 	/* METHODS FOR DEALING WITH READING DATA */
 	
 	/**
+	 * Returns a list of SensorData objects containing the latest reading and timestamp for each
+	 * named sensor ID.
+	 * 
+	 * @param ids	an array of unique sensor IDs (global_ids)
+	 * @return		A list of SensorData objects containing the latest reading and timestamp for each named sensor ID
+	 */
+	public SensorData[] getLatestList(int[] ids) {
+		
+		SensorData[] dataList = new SensorData[ids.length];
+		
+		String query = "SELECT reading, timestamp FROM sensor_details WHERE global_id IN " + buildInList(ids) + ";";
+		Statement statement = new SimpleStatement(query);
+		ResultSet results = session.execute(statement);
+		int i = 0;
+		for(Row row : results) {
+			SensorData data = new SensorData(ids[i], row.getFloat("reading"), row.getDate("timestamp"));
+			dataList[i] = data;
+			i++;
+		}
+		return dataList;
+	}
+	
+	
+	/**
 	 * Returns the timestamp for the very first reading received from the identified sensor.
 	 * Never null for a valid global_id.
 	 * 
