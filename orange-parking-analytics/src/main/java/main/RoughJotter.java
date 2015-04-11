@@ -5,12 +5,6 @@ public class RoughJotter {
 	//I had some code from the API that was better used here so will be using this class to just throw rough bits in for later use
 	
 	/*
-	public double getDistanceBetween(Position pos1, Position pos2) {
-		double x = Math.abs(pos1.getLng() - pos2.getLng());
-		double y = Math.abs(pos1.getLat() - pos2.getLat());
-		return Math.sqrt(x*x + y*y);
-	}
-	
 	public int findNextClosest(int id, int[] ids) {
 		double tempDist;
 		double compDist = 999;
@@ -27,6 +21,12 @@ public class RoughJotter {
 			}
 		}
 		return closest;
+	}
+	
+	public static double getDistanceBetween(Position pos1, Position pos2) {
+		double x = Math.abs(pos1.getLng() - pos2.getLng());
+		double y = Math.abs(pos1.getLat() - pos2.getLat());
+		return Math.sqrt(x*x + y*y);
 	}
 	*/
 }
