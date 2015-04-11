@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import con.cql.CassandraCon;
+import connection.cql.CassandraCon;
 
 public class InputThread implements Runnable {
 	

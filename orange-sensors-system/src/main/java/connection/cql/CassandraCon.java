@@ -1,4 +1,4 @@
-package con.cql;
+package connection.cql;
 
 
 import java.util.Date;

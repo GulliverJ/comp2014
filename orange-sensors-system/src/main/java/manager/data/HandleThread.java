@@ -2,7 +2,7 @@ package manager.data;
 
 import java.sql.*;
 
-import con.cql.CassandraCon;
+import connection.cql.CassandraCon;
 
 public class HandleThread implements Runnable {
 	
