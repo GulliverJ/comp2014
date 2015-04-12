@@ -19,14 +19,13 @@ public class DataManager {
 		
 		try {
 			while(received == null || received.size() == 0) {
-				System.out.println("DM - readPacket waiting...");
 				wait();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		System.out.println("DM - readPacket retrieving " + received.get(0).toString());
+		System.out.println("Received: " + received.get(0).toString());
 		
 		byte[] result = received.get(0);
 		received.remove(0);

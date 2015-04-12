@@ -29,6 +29,11 @@ public class CassandraCon {
 		System.out.println("Successfully inserted.");
 	}
 	
+	public void initialiseSensor(String query) {
+		session.execute(query);
+		System.out.println("New sensor initialised!");
+	}
+	
 	public void closeCluster() {
 		cluster.close();
 		System.out.println("Cluster session now ded");

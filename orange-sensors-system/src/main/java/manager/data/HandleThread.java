@@ -13,7 +13,6 @@ public class HandleThread implements Runnable {
 	private static String data;
 	private static Connection con = null;
 	private CassandraCon cqlcon = new CassandraCon();
-	private BroadcastManager broadcast = new BroadcastManager();
 	
 	
 	public HandleThread(DataManager controller) {
