@@ -30,12 +30,10 @@ public class Parking {
 						restrictionMaximumStay, restrictionHourlyCharge);
 				long bayId = resultSet.getLong("bay_id");
 				long sensorId = resultSet.getLong("global_id");
-				double latitude = resultSet.getDouble("lat");
-				double longitude = resultSet.getDouble("lng");
 				boolean occupied = resultSet.getByte("occupied") == 1;
 				Timestamp state = resultSet.getTimestamp("state_timespan");
 				Time averageDailyAvailability = resultSet.getTime("ave_daily_availability");
-				Bay bay = new Bay(bayId, sensorId, latitude, longitude, restriction,
+				Bay bay = new Bay(bayId, sensorId, restriction,
 						occupied, state, averageDailyAvailability);
 				bays.add(bay);
 			}
@@ -64,37 +62,4 @@ public class Parking {
 		}
 	}
 	
-	public static void main(String[] args) {
-		for (Bay bay : getBays()) {
-			System.out.println(bay);
-		}
-		
-		Connection connection = null;
-		
-		try {
-			connection = DriverManager.getConnection(connectionString, username, password);
-			Statement statement = connection.createStatement();
-			String query = "SELECT * FROM bays inner join restrictions on bays.restriction_id = restrictions.restriction_id;";
-			statement.execute(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("Couldn't connect to SQL database!");
-		}
-		
-		// That's how you insert stuff, anyway. Request results like this: 
-		
-		try {
-			Connection con = DriverManager.getConnection(connectionString, username, password);
-			Statement stmt = con.createStatement();
-			String query = "SELECT road FROM bays WHERE global_id = 14;";
-			ResultSet rs = stmt.executeQuery(query);
-			if(rs.next()) {
-				System.out.println(rs.getString("road"));
-			}
-		} catch (SQLException e) {
-			System.out.println("Ya dun goof'd");
-		}
-
-	}
-
 }

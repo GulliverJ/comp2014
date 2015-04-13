@@ -8,20 +8,15 @@ public class Bay extends Observable {
 
 	private long id;
 	private long sensorId;
-	private double latitude;
-	private double longitude;
 	private Restriction restriction;
 	private boolean occupied;
 	private Timestamp state;
 	private Time averageDailyAvailability;
 	
-	public Bay(long id, long sensorId, double latitude,
-			double longitude, Restriction restriction, boolean occupied,
+	public Bay(long id, long sensorId, Restriction restriction, boolean occupied,
 			Timestamp state, Time averageDailyAvailability) {
 		this.id = id;
 		this.sensorId = sensorId;
-		this.latitude = latitude;
-		this.longitude = longitude;
 		this.restriction = restriction;
 		this.occupied = occupied;
 		this.state = state;
@@ -34,14 +29,6 @@ public class Bay extends Observable {
 
 	public long getSensorId() {
 		return sensorId;
-	}
-
-	public double getLatitude() {
-		return latitude;
-	}
-
-	public double getLongitude() {
-		return longitude;
 	}
 
 	public Restriction getRestriction() {
