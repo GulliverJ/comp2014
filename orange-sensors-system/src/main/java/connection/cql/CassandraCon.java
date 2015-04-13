@@ -15,8 +15,6 @@ public class CassandraCon {
 
 		this.cluster = Cluster.builder().addContactPoint("128.16.80.125").build();
 		this.session = cluster.connect("orangesystem");
-
-		System.out.println("Successfully initiated Cassandra connection");
 	}
 	
 	public void addReading(int global_id, float reading) {
@@ -29,8 +27,12 @@ public class CassandraCon {
 		System.out.println("Successfully inserted.");
 	}
 	
+	public void initialiseSensor(String query) {
+		session.execute(query);
+		System.out.println("New sensor added to the network!");
+	}
+	
 	public void closeCluster() {
 		cluster.close();
-		System.out.println("Cluster session now ded");
 	}
 }

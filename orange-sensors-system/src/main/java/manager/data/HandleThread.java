@@ -13,7 +13,6 @@ public class HandleThread implements Runnable {
 	private static String data;
 	private static Connection con = null;
 	private CassandraCon cqlcon = new CassandraCon();
-	private BroadcastManager broadcast = new BroadcastManager();
 	
 	
 	public HandleThread(DataManager controller) {
@@ -43,7 +42,6 @@ public class HandleThread implements Runnable {
 				read = new String(controller.readPacket(), "UTF-8");
 				hash = read.substring(0, 8);
 				if (verifyHash(hash, con)) {
-					System.out.println("Hash " + hash + " verified.");
 					data = read.substring(9, read.lastIndexOf(';'));
 					(new Thread(new InputThread(hash, data, cqlcon, con))).start();
 				}

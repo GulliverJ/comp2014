@@ -37,8 +37,8 @@ public class OrangeConnection {
 	/* METHODS FOR RETRIEVING GLOBAL IDS */
 
 	/**
-	 * Returns an array of global_ids filtered by a given column matching an 
-	 * argument.
+	 * Returns an array of global_ids filtered by a given column matching a  
+	 * value.
 	 * <p>
 	 * Valid columns to query are limited to:
 	 * <ul>
@@ -63,7 +63,7 @@ public class OrangeConnection {
 	}
 	
 	/**
-	 * Returns an array of global_ids filtered by multiple given columns and arguments.
+	 * Returns an array of global_ids filtered by multiple given columns and values.
 	 * 
 	 * @param cols	a String array containing column names - one of application, measures, or unit
 	 * @param args	an array of string arguments to filter by
@@ -76,18 +76,49 @@ public class OrangeConnection {
 			return null;
 		}
 		
-		String queryString = "SELECT global_id FROM sensor_details WHERE ";
-		String addConditions = "";
+		String queryString = buildListQuery(cols, args) + "ALLOW FILTERING;";
 		
-		for(int i = 0; i < cols.length; i++) {
-			addConditions = cols[i] + " = '" + args[i];
-			if(i == cols.length - 1) {
-				addConditions += "' ALLOW FILTERING;";
-			} else {
-				addConditions += "' AND ";
-			}
-			queryString += addConditions;
+		Statement statement = new SimpleStatement(queryString);
+		ResultSet results = session.execute(statement);
+		
+		return parseIDs(results);
+	}
+	
+	/**
+	 * Returns an array of global_ids filtered by both a column with a value and a
+	 * timestamp. Any IDs of matching sensors which have sent a reading since the specified
+	 * timestamp will be returned.
+	 * 
+	 * @param col			one of application, measures, or unit
+	 * @param arg			a value to filter by
+	 * @param timestamp		returned values will have timestamps greater than this
+	 * @return				an array of global IDs from rows updated since the given timestamp, matching the given properties
+	 */
+	public int[] getIDsWhereSince(String col, String arg, Date timestamp) {
+		
+		Statement statement = new SimpleStatement("SELECT global_id FROM sensor_details WHERE " + col + " = '" + arg + "' AND timestamp >= " + timestamp.getTime() + " ALLOW FILTERING;");
+		ResultSet results = session.execute(statement);
+		
+		return parseIDs(results);
+	}
+	
+	/**
+	 * Returns an array of global_ids filtered by a list of columns and values, and a
+	 * timestamp. Any IDs of matching sensors which have sent a reading since the specified
+	 * timestamp will be returned.
+	 * 
+	 * @param col			a list containing 'application', 'measures', and/or 'unit'
+	 * @param arg			a list containing respective values to filter by
+	 * @param timestamp		returned values will have timestamps greater than this
+	 * @return				an array of global IDs from rows updated since the given timestamp, matching the given properties
+	 */
+	public int[] getIDsWhereSince(String[] cols, String[] args, Date timestamp) {
+		if(cols.length != args.length) {
+			System.out.println("Number of columns must match the number of arguments!");
+			return null;
 		}
+		
+		String queryString = buildListQuery(cols, args) + " AND timestamp >= " + timestamp.getTime() + " ALLOW FILTERING;";
 		
 		Statement statement = new SimpleStatement(queryString);
 		ResultSet results = session.execute(statement);
@@ -110,6 +141,23 @@ public class OrangeConnection {
 		}
 		Arrays.sort(idList);
 		return idList;
+	}
+	
+	private String buildListQuery(String[] cols, String[] args) {
+		String queryString = "SELECT global_id FROM sensor_details WHERE ";
+		String addConditions = "";
+		
+		for(int i = 0; i < cols.length; i++) {
+			addConditions = cols[i] + " = '" + args[i];
+			if(i == cols.length - 1) {
+				addConditions += "' ";
+			} else {
+				addConditions += "' AND ";
+			}
+			queryString += addConditions;
+		}
+		
+		return queryString;
 	}
 	
 	/* METHODS FOR RETRIEVING STRING META DATA BY GLOBAL*/

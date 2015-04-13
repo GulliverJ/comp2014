@@ -24,7 +24,6 @@ public class ReceiveThread implements Runnable {
 
 		while(!kill) {
 
-			System.out.println("Waiting for packet...");
 			try {
 				byte[] buf = new byte[256];
 				
@@ -35,7 +34,7 @@ public class ReceiveThread implements Runnable {
 				}
 				socket.receive(packet);
 					
-				System.out.println("Got a packet! " + new String(packet.getData(), "UTF-8") );
+				System.out.print("Received: " + new String(packet.getData(), "UTF-8") + "   Status: ");
 				
 				controller.addPacket(packet.getData());
 								
