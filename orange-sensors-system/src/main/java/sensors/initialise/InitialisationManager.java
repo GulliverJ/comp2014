@@ -12,17 +12,23 @@ public class InitialisationManager implements Runnable {
 	private boolean kill = false;
 	
 	public void run() {
+		
+		Socket sock;
+		ServerSocket listen;
+		BufferedReader br;
+		CassandraCon cqlcon;
+		
 		while(!kill) {
 			try {
-				Socket sock = new Socket();
-				ServerSocket listen = new ServerSocket(2015);
+				sock = new Socket();
+				listen = new ServerSocket(2015);
 				
 				sock = listen.accept();
 				
-				CassandraCon cqlcon = new CassandraCon();
+				cqlcon = new CassandraCon();
 				
-				BufferedReader br = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-				String query = "INSERT INTO sensor_details(global_id, lat, lng, application, measures, unit, reading) VALUES (";
+				br = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+				String query = "INSERT INTO sensor_details(global_id, lat, lng, application, measures, unit, first_added) VALUES (";
 				
 				for(int i = 0; i < 3; i++) {
 					query += br.readLine() + ", ";
@@ -30,7 +36,10 @@ public class InitialisationManager implements Runnable {
 				for(int i = 0; i < 3; i++) {
 					query += "'" + br.readLine() + "', ";
 				}
+				
 				query += "dateof(now()));";
+				
+				cqlcon.initialiseSensor(query);
 				
 				br.close();
 				sock.close();
