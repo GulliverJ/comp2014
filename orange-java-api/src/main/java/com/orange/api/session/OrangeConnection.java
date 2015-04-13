@@ -96,7 +96,7 @@ public class OrangeConnection {
 	 */
 	public int[] getIDsWhereSince(String col, String arg, Date timestamp) {
 		
-		Statement statement = new SimpleStatement("SELECT global_id FROM sensor_details WHERE " + col + " = '" + arg + "' AND timestamp >= " + timestamp.getTime() + " ALLOW FILTERING;");
+		Statement statement = new SimpleStatement("SELECT global_id FROM sensor_details WHERE " + col + " = '" + arg + "' AND timestamp >= " + timestamp.getTime()/1000 + " ALLOW FILTERING;");
 		ResultSet results = session.execute(statement);
 		
 		return parseIDs(results);
