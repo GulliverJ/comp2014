@@ -1,0 +1,24 @@
+
+
+#include <mc1322x.h>
+#include <board.h>
+#include <adc.h>
+
+#define DELAY 400000
+
+#define LED (1ULL << LED_BLUE)
+
+void main(void) {	
+	volatile uint32_t i;
+	
+	
+
+	while(1) {
+	adc_init(void);
+	ADC_flush(void);
+	ADC_READ(void);
+	read_scanners(void);
+
+	};
+
+}
